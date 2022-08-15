@@ -1,0 +1,30 @@
+_schema-version: "2.1"
+ID: UPSDEMo
+version: 0.0.1
+modules:
+- name: spatial
+  type: hdb
+  path: spatial
+  requires:
+  - name: hdi_spatial
+    properties:
+      TARGET_CONTAINER: ~{hdi-container-name}
+  - name: cross-container-service-1
+    group: SERVICE_REPLACEMENTS
+    properties:
+      key: ServiceName_1
+      service: ~{the-service-name}
+resources:
+- name: hdi_spatial
+  type: com.sap.xs.hdi-container
+  parameters:
+    config:
+      schema: SpDEMo
+  properties:
+    hdi-container-name: ${service-name}
+- name: cross-container-service-1
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service-name: spatialacc
+  properties:
+    the-service-name: ${service-name}
